@@ -1,6 +1,7 @@
 import {Categories, PizzaBlock, SortPopup} from "../Components";
 
 function Home({pizzas}) {
+
   return (
       <div className="container">
         <div className="content__top">
@@ -12,9 +13,9 @@ function Home({pizzas}) {
             "Закрытые",
           ]}/>
           <SortPopup items={[
-            "популярности",
-            "цене",
-            "алфавиту"
+            {name: "популярности", type: "popular"},
+            {name:"цене", type: "price"},
+            {name: "алфавиту", type:"alphabet"}
           ]} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
