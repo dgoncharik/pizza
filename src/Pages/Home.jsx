@@ -1,4 +1,5 @@
 import {Categories, PizzaBlock, SortPopup} from "../Components";
+import PropTypes from "prop-types";
 
 function Home({pizzas}) {
 
@@ -22,12 +23,21 @@ function Home({pizzas}) {
         <div className="content__items">
 
           {
-            pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
+            pizzas?.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
           }
 
         </div>
       </div>
   )
+}
+
+Home.propTypes = {
+  pizzas: PropTypes.array
+
+}
+
+Home.defaultProps = {
+  pizzas: []
 }
 
 export default Home;

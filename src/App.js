@@ -1,16 +1,26 @@
 import {Header} from "./Components";
 import {Home, Cart} from "./Pages";
 import {Route, Switch} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import axios from "axios";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {setPizzas} from "./redux/actions/pizzas";
 
-function App({pizzas, setPizzas, filters}) {
+function App() {
+
+  const dispatch = useDispatch();
+  const {pizzas, sortBy}  = useSelector(({pizzas, filters}) => {
+    return {
+      pizzas: pizzas.items,
+      sortBy: filters.sortBy
+    }
+  });
 
   useEffect( () => {
     axios.get("http://localhost:3000/db.json")
-        .then(response => setPizzas(response.data.pizzas));
+        .then(response => {
+          dispatch(setPizzas(response.data.pizzas))
+        });
   }, []);
 
   return (
@@ -26,15 +36,7 @@ function App({pizzas, setPizzas, filters}) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    pizzas: state.pizzas.items,
-    filters: state.filters
-  }
-}
 
-const mapDispatchToProps = {
-  setPizzas
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default App;
