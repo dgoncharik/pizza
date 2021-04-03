@@ -1,11 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
 import classNames from "classnames";
+import PropTypes from "prop-types";
 
-function SortPopup({items}) {
+
+const SortPopup = React.memo(({items, sortBy, onClickTypeSortCallback, onClickOrderSortCallback}) => {
 
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [activeItem, setActiveItem]     = useState(0);
-  const activeItemLabel                 = items && items[activeItem].name;
+  const activeItemLabel = items.find(obj => obj.type === sortBy.type)?.name;
 
   const sortRef = useRef();
 
@@ -24,17 +25,27 @@ function SortPopup({items}) {
     setVisiblePopup(visiblePopup => !visiblePopup);
   }
 
-  function onSelectItem(evt, index) {
-    setActiveItem(() => index);
+  function onClickTypeSort(evt, index) {
+
+    if (onClickTypeSortCallback) {
+      onClickTypeSortCallback(items[index].type)
+    }
     setVisiblePopup(false);
+
+  }
+
+  function onClickOrderSort() {
+    if (onClickOrderSortCallback) {
+      onClickOrderSortCallback();
+    }
   }
 
   return (
       <div ref={sortRef} className="sort">
         <div className="sort__label">
-          <svg className={classNames({"rotated": visiblePopup})}
-              width="10"
-              height="6"
+          <svg onClick={onClickOrderSort} className={classNames({"rotated": sortBy.order === "asc"})}
+              width="12"
+              height="8"
               viewBox="0 0 10 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -54,8 +65,8 @@ function SortPopup({items}) {
               items?.map((item, index) => (
                   <li
                       key={item.type}
-                      className={classNames({"active": index === activeItem})}
-                      onClick={(evt) => onSelectItem(evt, index)}
+                      className={classNames({"active": item.type === sortBy.type})}
+                      onClick={(evt) => onClickTypeSort(evt, index)}
                   >
                     {item.name}
                   </li>
@@ -65,6 +76,17 @@ function SortPopup({items}) {
         </div>}
       </div>
   )
+})
+
+SortPopup.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  sortBy: PropTypes.object.isRequired,
+  onClickTypeSortCallback: PropTypes.func,
+  onClickOrderSortCallback: PropTypes.func
+}
+
+SortPopup.defaultProps = {
+  items: []
 }
 
 export default SortPopup;

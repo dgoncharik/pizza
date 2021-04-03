@@ -1,4 +1,4 @@
-import {SET_PIZZAS} from "../actions/pizzas";
+import {SET_LOADED, SET_PIZZAS} from "../actions/pizzas";
 
 const initialState = {
   items: [],
@@ -13,6 +13,12 @@ const pizzas = (state=initialState, action) => {
       return {
         ...state,
         items: action.payload
+      }
+
+    case (SET_LOADED):
+      return {
+        ...state,
+        isLoaded: action.payload
       }
 
     default:

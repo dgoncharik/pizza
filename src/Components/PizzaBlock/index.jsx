@@ -3,11 +3,12 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 function PizzaBlock({imageUrl, name, price, sizes, types}) {
+
   const availableTypes = ["тонкое", "традиционное"];
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
-  const onSelectItem = (index) => {
+  const onSelectType = (index) => {
     setActiveType(index)
   }
 
@@ -33,7 +34,7 @@ function PizzaBlock({imageUrl, name, price, sizes, types}) {
                       "disabled": !types.includes(index)
                     })}
                       key={type}
-                      onClick={() => onSelectItem(index)}>
+                      onClick={() => onSelectType(index)}>
 
                     {type}
                   </li>))
@@ -45,11 +46,11 @@ function PizzaBlock({imageUrl, name, price, sizes, types}) {
               sizes.map((size, index) => (
                   <li className={
                     classNames({
-                      "active": activeSize === index,
+                      "active": activeSize === size,
                       "disabled": !sizes.includes(size)
                     })}
                       key={size}
-                      onClick={() => onSelectSize(index)}>
+                      onClick={() => onSelectSize(size)}>
 
                     {size} см.
                   </li>))
@@ -58,7 +59,7 @@ function PizzaBlock({imageUrl, name, price, sizes, types}) {
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} ₽</div>
+          <div className="pizza-block__price">от {price} BYN</div>
           <div className="button button--outline button--add">
             <svg
                 width="12"
