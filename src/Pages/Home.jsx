@@ -23,13 +23,13 @@ function Home() {
 
   const dispatch = useDispatch();
 
-  const {pizzas, isLoaded, category, sortBy, cartItems} = useSelector(({pizzas, filters, cart}) => {
+  const {pizzas, isLoaded, category, sortBy, cartAllItems} = useSelector(({pizzas, filters, cart}) => {
     return {
       pizzas: pizzas.items,
       isLoaded: pizzas.isLoaded,
       category: filters.category,
       sortBy: filters.sortBy,
-      cartItems: cart.items
+      cartAllItems: cart.allItems
     }
   });
 
@@ -66,7 +66,7 @@ function Home() {
           {
             isLoaded ?
                 pizzas?.map(pizza => <PizzaBlock
-                    inCartCount={cartItems[pizza.id]?.length}
+                    inCartCount={cartAllItems[pizza.id]?.items.length}
                     key={pizza.id}
                     onBtnClickCallback={onAddPizzaToCart}
                     {...pizza}/>) :

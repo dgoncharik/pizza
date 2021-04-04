@@ -9,7 +9,7 @@ export const setLoaded = (boolean) => ({type:SET_LOADED, payload: boolean});
 export const fetchPizzas = (category, typeSortBy, orderSortBy) => (dispatch) => {
 
   dispatch(setLoaded(false));
-  axios.get("http://localhost:3001/pizzas", {
+  axios.get("/pizzas", {
     params: {
       category: category,
       _sort: typeSortBy,
